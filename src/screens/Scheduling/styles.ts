@@ -43,7 +43,6 @@ export const RentalPeriod = styled.View`
 
 export const DateInfo = styled.View`
   width: 30%;
-
 `;
 
 export const DateTitle = styled.Text`
@@ -69,9 +68,7 @@ export const Content = styled.ScrollView.attrs({
     paddingBottom: 24
   },
   showVerticalScrollIndicator: false
-})`
-
-`;
+})``;
 
 export const Footer = styled.View`
   padding: 24px;
