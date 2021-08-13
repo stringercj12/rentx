@@ -121,7 +121,7 @@ export function SchedulingDetails() {
         </RentalPrice>
       </Content>
 
-      <Footer>
+      <Footer>1D2242
         <Button title="Alugar agora" color={theme.colors.success} onPress={handleConfirm} />
       </Footer>
     </Container>
