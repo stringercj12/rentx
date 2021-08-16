@@ -70,6 +70,7 @@ function Calendar({ markedDates, onDayPress }: CalendarProps) {
 
       firstDay={1}
       minDate={new Date()}
+      markingType="period"
       markedDates={markedDates}
       onDayPress={onDayPress}
     />
