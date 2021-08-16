@@ -37,7 +37,7 @@ export function CarDetails() {
   const { car } = router.params as Params;
 
   function handleConfirm() {
-    navigation.navigate('Scheduling');
+    navigation.navigate('Scheduling', {car});
   }
 
   function handleBack() {
