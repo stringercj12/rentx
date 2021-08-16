@@ -12,7 +12,7 @@ export default {
     line: '#EBEBF0',
 
     main: '#D61637',
-    main_line: '#FDEDEF',
+    main_light: '#FDEDEF',
     success: '#03B252',
 
     shape: '#E1E1E8',
