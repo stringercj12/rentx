@@ -6,7 +6,7 @@ import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 
 import { BackButton } from '../../components/BackButton';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 import { CarDTO } from '../../dtos/CarDTO';
 import { Car } from '../../components/Car';
@@ -87,7 +87,7 @@ export function MyCars() {
         </SubTitle>
 
       </Header>
-      {loading ? <Load /> :
+      {loading ? <LoadAnimation /> :
         <Content>
           <Appointments>
             <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
@@ -97,7 +97,7 @@ export function MyCars() {
           <FlatList
             data={cars}
             keyExtractor={item => item.id}
-            showVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <CarWrapper>
                 <Car data={item.car} />
