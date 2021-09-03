@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { 
+
+import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -10,7 +11,7 @@ import {
 import * as Yup from 'yup';
 
 import theme from '../../styles/theme';
-import { useAuth } from '../../hooks/auth';
+// import { useAuth } from '../../hooks/auth';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -25,15 +26,19 @@ import {
   Footer
 } from './styles';
 
-export function SignIn(){
+export function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const navigation = useNavigation();
-  const { signIn } = useAuth();
+  const navigation = useNavigation<any>();
+  // const { signIn } = useAuth();
+
+  function signIn({ }: any) {
+
+  }
 
   async function handleSignIn() {
-    try{
+    try {
       const schema = Yup.object().shape({
         email: Yup.string()
           .required('E-mail obrigatório')
@@ -41,16 +46,16 @@ export function SignIn(){
         password: Yup.string()
           .required('A senha é obrigatória')
       });
-  
+
       await schema.validate({ email, password });
 
       signIn({ email, password });
-    }catch(error){
-      if(error instanceof Yup.ValidationError){
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
         Alert.alert('Opa', error.message);
-      }else{
+      } else {
         Alert.alert(
-          'Erro na autenticação', 
+          'Erro na autenticação',
           'Ocorreu um erro ao fazer login, verifique as credenciais'
         )
       }
@@ -65,59 +70,59 @@ export function SignIn(){
     <KeyboardAvoidingView behavior="position" enabled>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
-        <StatusBar 
-          barStyle="dark-content"
-          backgroundColor="transparent"
-          translucent
-        />
-        <Header>
-          <Title>
-            Estamos{'\n'}quase lá.
-          </Title>
-          <SubTitle>
-            Faça seu login para começar{'\n'}
-            uma experiência incrível.
-          </SubTitle>
-        </Header>
-
-        <Form>
-          <Input 
-            iconName="mail"
-            placeholder="E-mail"
-            keyboardType="email-address"
-            autoCorrect={false}
-            autoCapitalize="none"
-            onChangeText={setEmail}
-            value={email}            
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor="transparent"
+            translucent
           />
+          <Header>
+            <Title>
+              Estamos{'\n'}quase lá.
+            </Title>
+            <SubTitle>
+              Faça seu login para começar{'\n'}
+              uma experiência incrível.
+            </SubTitle>
+          </Header>
 
-          <PasswordInput 
-            iconName="lock"
-            placeholder="Senha"    
-            onChangeText={setPassword}              
-            value={password}
-          />
-        </Form>
+          <Form>
+            <Input
+              iconName="mail"
+              placeholder="E-mail"
+              keyboardType="email-address"
+              autoCorrect={false}
+              autoCapitalize="none"
+              onChangeText={setEmail}
+              value={email}
+            />
 
-        <Footer>
-          <Button 
-            title="Login"
-            onPress={handleSignIn}
-            enabled={true}
-            loading={false}
-          />
+            <PasswordInput
+              iconName="lock"
+              placeholder="Senha"
+              onChangeText={setPassword}
+              value={password}
+            />
+          </Form>
 
-          <Button 
-            title="Criar conta gratuita"
-            color={theme.colors.background_secondary}
-            light
-            onPress={handleNewAccount}
-            enabled={true}
-            loading={false}
-          />
-        </Footer>
+          <Footer>
+            <Button
+              title="Login"
+              onPress={handleSignIn}
+              enabled={true}
+              loading={false}
+            />
 
-      </Container>
+            <Button
+              title="Criar conta gratuita"
+              color={theme.colors.background_secondary}
+              light
+              onPress={handleNewAccount}
+              enabled={true}
+              loading={false}
+            />
+          </Footer>
+
+        </Container>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
