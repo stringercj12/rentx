@@ -54,7 +54,7 @@ export function SchedulingDetails() {
   const [loading, setLoading] = useState(false);
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodProps>({} as RentalPeriodProps);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const router = useRoute();
   const { car, dates } = router.params as Params;
 
@@ -83,11 +83,15 @@ export function SchedulingDetails() {
       id: car.id,
       unavailable_dates
     })
-    .then(() => navigation.navigate('SchedulingComplete'))
-    .catch(() => {
-      Alert.alert('Não foi possível confirmar o agendamento.');
-      setLoading(false);
-    });
+      .then(() => navigation.navigate('Confirmation', {
+        title: 'Carro alugado!',
+        message: `Agora você só precisa ir\n até a concessionária da RENTX\n pegar o seu automóvel.`,
+        nextScreenRoute: 'Home'
+      }))
+      .catch(() => {
+        Alert.alert('Não foi possível confirmar o agendamento.');
+        setLoading(false);
+      });
   }
 
   function handleBack() {
