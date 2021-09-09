@@ -11,11 +11,11 @@ import {
 import * as Yup from 'yup';
 
 import theme from '../../styles/theme';
-// import { useAuth } from '../../hooks/auth';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -31,11 +31,8 @@ export function SignIn() {
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation<any>();
-  // const { signIn } = useAuth();
+  const { signIn } = useAuth();
 
-  function signIn({ }: any) {
-
-  }
 
   async function handleSignIn() {
     try {
