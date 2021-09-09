@@ -114,7 +114,7 @@ export function SignIn() {
 
             <Button
               title="Criar conta gratuita"
-              color={theme.colors.background_secondary}
+              color={theme.colors.background_primary}
               light
               onPress={handleNewAccount}
               enabled={true}
