@@ -38,15 +38,17 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      const userCollection = database.get<ModelUser>('users');
+      // const userCollection = await database.get<ModelUser>('users');
 
-      await userCollection.create((newUser) => {
-        newUser.user_id = user.id;
-        newUser.name = user.name;
-        newUser.email = user.email;
-        newUser.driver_license = user.driver_license;
-        newUser.token = user.token;
-      });
+      // await database.write(async () => {
+      //   await userCollection.create((newUser) => {
+      //     newUser.user_id = user.id;
+      //     newUser.name = user.name;
+      //     newUser.email = user.email;
+      //     newUser.driver_license = user.driver_license;
+      //     newUser.token = user.token;
+      //   });
+      // });
 
 
       setData({
