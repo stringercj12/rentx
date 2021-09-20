@@ -11,7 +11,6 @@ import { Car } from '../../components/Car';
 import { Car as ModelCar } from '../../database/model/Car';
 import { LoadAnimation } from '../../components/LoadAnimation';
 import { api } from '../../services/api';
-import { CarDTO } from '../../dtos/CarDTO';
 
 import {
   CarList,
@@ -28,7 +27,7 @@ export function Home() {
   const netInfo = useNetInfo();
   const navigation = useNavigation<any>();
 
-  function handleCarDetails(car: CarDTO) {
+  function handleCarDetails(car: ModelCar) {
     navigation.navigate('CarDetails', { car });
   }
 

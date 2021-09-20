@@ -29,6 +29,7 @@ import {
 export function SignIn() {
   const [email, setEmail] = useState('rodrigo@email.com');
   const [password, setPassword] = useState('123');
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<any>();
   const { signIn } = useAuth();
@@ -45,7 +46,7 @@ export function SignIn() {
       });
 
       await schema.validate({ email, password });
-
+      setLoading(true);
       signIn({ email, password });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -56,6 +57,8 @@ export function SignIn() {
           'Ocorreu um erro ao fazer login, verifique as credenciais'
         )
       }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -105,8 +108,8 @@ export function SignIn() {
             <Button
               title="Login"
               onPress={handleSignIn}
-              enabled={true}
-              loading={false}
+              enabled={(email && password) ? true : false}
+              loading={loading}
             />
 
             <Button
@@ -114,8 +117,6 @@ export function SignIn() {
               color={theme.colors.background_primary}
               light
               onPress={handleNewAccount}
-              enabled={true}
-              loading={false}
             />
           </Footer>
 
