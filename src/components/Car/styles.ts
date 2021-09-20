@@ -24,7 +24,6 @@ export const Details = styled.View`
 export const Brand = styled.Text`
   font-family: ${({ theme }) => theme.fonts.secondary_500};
   color: ${({ theme }) => theme.colors.text_detail};
-  background-color: ${({ theme }) => theme.colors.main};
   font-size: ${RFValue(10)}px;
 
   text-transform: uppercase;

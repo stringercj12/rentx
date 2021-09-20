@@ -27,8 +27,8 @@ import {
 } from './styles';
 
 export function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('rodrigo@email.com');
+  const [password, setPassword] = useState('123');
 
   const navigation = useNavigation<any>();
   const { signIn } = useAuth();

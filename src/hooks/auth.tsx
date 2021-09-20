@@ -18,6 +18,8 @@ interface SignInCredentials {
 interface AuthContextData {
   user: User;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signOut: () => Promise<void>;
+  updateUser: (user: User) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -38,17 +40,19 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      // const userCollection = await database.get<ModelUser>('users');
-
-      // await database.write(async () => {
-      //   await userCollection.create((newUser) => {
-      //     newUser.user_id = user.id;
-      //     newUser.name = user.name;
-      //     newUser.email = user.email;
-      //     newUser.driver_license = user.driver_license;
-      //     newUser.token = user.token;
-      //   });
-      // });
+      const userCollection = await database.get<ModelUser>('users');
+      console.log(response.data);
+      await database.write(async (e) => {
+        console.log('Aqui', e)
+        await userCollection.create((newUser) => {
+          newUser.user_id = user.id;
+          newUser.name = user.name;
+          // newUser.name = user.name;
+          // newUser.email = user.email;
+          // newUser.driver_license = user.driver_license;
+          // newUser.token = token;
+        });
+      });
 
 
       setData({
@@ -63,15 +67,45 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   }
 
+  async function signOut() {
+    try {
+      const userCollection = database.get<ModelUser>('users');
+      await database.write(async () => {
+        const userSelected = await userCollection.find(data.id);
+        await userSelected.destroyPermanently();
+        setData({} as User);
+      });
+
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  async function updateUser(user: User) {
+    try {
+      const userCollection = database.get<ModelUser>('users');
+      await database.write(async () => {
+        const userSelected = await userCollection.find(user.id);
+        await userSelected.update((userData) => {
+          userData.name = user.name
+        })
+      })
+
+      setData(user);
+
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
   useEffect(() => {
     async function loadUserData() {
       const userCollection = database.get<ModelUser>('users');
-
       const response = await userCollection.query().fetch();
       console.log(response);
 
       if (response.length > 0) {
-        const userData = response[0]._raw as unknown as ModelUser;
+        const userData = response[0]._raw as unknown as User;
         api.defaults.headers.authorization = `Bearer ${userData.token}`;
         setData(userData);
       }
@@ -84,7 +118,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider value={{
       user: data,
-      signIn
+      signIn,
+      signOut,
+      updateUser
     }}>
       {children}
     </AuthContext.Provider>
