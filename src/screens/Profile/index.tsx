@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useTheme } from 'styled-components';
 import { Feather } from '@expo/vector-icons';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useNetInfo } from '@react-native-community/netinfo';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 
@@ -39,12 +40,16 @@ export function Profile() {
 
   const theme = useTheme();
   const navigation = useNavigation();
+  const netInfo = useNetInfo();
 
   function handleBack() {
     navigation.goBack();
   }
 
   function handleOptionChange(optionSelected: 'dataEdit' | 'passowrdEdit') {
+    if (netInfo.isConnected === false && optionSelected === 'passowrdEdit') {
+      Alert.alert('Você está Offline', 'Para mudar a senha, conecte-se a Internet');
+    }
     setOption(optionSelected);
   }
 
@@ -96,14 +101,13 @@ export function Profile() {
   }
 
   async function handleSignOut() {
-    
     Alert.alert(
-      'Tem certeza ?', 
+      'Tem certeza ?',
       'Se você sair, irá precisar de internet para conectar-se novamente.',
       [
         {
           text: 'Cancelar',
-          onPress: () => {},
+          onPress: () => { },
           style: 'cancel'
         },
         {
@@ -112,7 +116,7 @@ export function Profile() {
           style: 'cancel'
         }
       ]
-      );
+    );
   }
 
   return (

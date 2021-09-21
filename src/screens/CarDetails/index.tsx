@@ -34,6 +34,7 @@ import {
   Accessories,
   About,
   Footer,
+  OffilineInfo
 } from './styles';
 import { CarDTO } from '../../dtos/CarDTO';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
@@ -150,7 +151,7 @@ export function CarDetails() {
 
           <Rent>
             <Period>{car.period}</Period>
-            <Price>R$ {car.price}</Price>
+            <Price>R$ {netInfo.isConnected === true ? car.price : '...'}</Price>
           </Rent>
         </Details>
 
@@ -173,7 +174,17 @@ export function CarDetails() {
       </Animated.ScrollView>
 
       <Footer>
-        <Button title="Escolher período do aluguel" onPress={handleConfirm} />
+        <Button
+          title="Escolher período do aluguel"
+          onPress={handleConfirm}
+          enabled={netInfo.isConnected === true}
+        />
+        {
+          netInfo.isConnected === false &&
+          <OffilineInfo>
+            Conecte-se a Internet para ver mais detalhes e agendar seu carro.
+          </OffilineInfo>
+        }
       </Footer>
     </Container>
   );
