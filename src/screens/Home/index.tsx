@@ -35,7 +35,7 @@ export function Home() {
     await synchronize({
       database,
       pullChanges: async ({ lastPulledAt }) => {
-        const response = await api.get(`cars/sync/pull?lastPulledAtVersion=${lastPulledAt || 0}`);
+        const response = await api.get(`/cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`);
 
         const { changes, latestVersion } = response.data;
 
@@ -58,6 +58,8 @@ export function Home() {
         const cars = await carCollection.query().fetch();
 
         if (isMounted) {
+
+          console.log(cars);
           setCars(cars);
         }
       } catch (error) {

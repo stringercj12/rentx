@@ -41,26 +41,15 @@ function AuthProvider({ children }: AuthProviderProps) {
       const { token, user } = response.data;
 
       api.defaults.headers.authorization = `Bearer ${token}`;
-      const userCollection = await database.get<ModelUser>('users');
-      // const userCollection = await database.get<ModelUser>('users').create((newUser) => {
-      //   newUser.user_id = user.id;
-      //   newUser.name = user.name;
-      //   // newUser.name = user.name;
-      //   // newUser.email = user.email;
-      //   // newUser.driver_license = user.driver_license;
-      //   // newUser.token = token;
-      //   console.log('Aqui', newUser)
-      // });
-      console.log(response.data);
-      await database.write(async (e) => {
-        console.log('Aqui', e)
+
+      const userCollection = database.get<ModelUser>('users');
+      await database.write(async () => {
         await userCollection.create((newUser) => {
           newUser.user_id = user.id;
           newUser.name = user.name;
-          // newUser.name = user.name;
-          // newUser.email = user.email;
-          // newUser.driver_license = user.driver_license;
-          // newUser.token = token;
+          newUser.email = user.email;
+          newUser.driver_license = user.driver_license;
+          newUser.token = token;
         });
       });
 
@@ -71,6 +60,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
     } catch (error: any) {
+      console.log('erro! ', error);
       throw new Error(error);
     }
 
